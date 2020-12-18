@@ -29,18 +29,6 @@ def login(request):
     return JsonResponse(data)
 
 
-def finish(request):
-    room = Room.objects.get(code=request.data['room'].upper())
-    moves = Move.objects.filter(room=room)
-    for move in moves:
-        move.delete()
-    room.first_move = "p1" if room.first_move == "p2" else "p2"
-    room.p1_ready = False
-    room.p2_ready = False
-    room.save()
-    return JsonResponse({'msg': 'ok'})
-
-
 class RoomView(generics.CreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
@@ -82,13 +70,24 @@ class RoomView(generics.CreateAPIView):
             room.save()
             return JsonResponse({'msg': 'p1', 'lobby': room.code})
         elif request.data['mode'] == 'ready':
-            room = self.queryset.get(code=request.data['room'])
+            room = self.queryset.get(code=request.data['room'].upper())
             if request.data['player'] == "p1":
                 room.p1_ready = True
             elif request.data['player'] == "p2":
                 room.p2_ready = True
             room.save()
             return JsonResponse({"msg": "ok"})
+        elif request.data['mode'] == 'finish':
+            room = self.queryset.get(code=request.data['room'].upper())
+            moves = Move.objects.filter(room=room)
+            for move in moves:
+                move.delete()
+            if room.p1_ready and room.p2_ready:
+                room.first_move = "p1" if room.first_move == "p2" else "p2"
+                room.p1_ready = False
+                room.p2_ready = False
+                room.save()
+            return JsonResponse({'msg': "ok"})
         elif request.data['mode'] == 'exit':
             room = self.queryset.get(code=request.data['room'])
             if request.data['uid'] == room.p1_uid:
