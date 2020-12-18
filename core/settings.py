@@ -91,18 +91,18 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # postgres://diqsfzgpldvlbb:c25acf4c1fbfa1ea9d5d224998610c20dce855c09212f13aa585a403755b2a33@ec2-54-216-202-161.eu-west-1.compute.amazonaws.com:5432/d70sl70ini0qm9
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'd70sl70ini0qm9',
-    #     'USER': 'diqsfzgpldvlbb',
-    #     'PASSWORD': 'c25acf4c1fbfa1ea9d5d224998610c20dce855c09212f13aa585a403755b2a33',
-    #     'HOST': 'ec2-54-216-202-161.eu-west-1.compute.amazonaws.com',
-    #     'PORT': '5432',
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dfgu9no4mppi4n',
+        'USER': 'ellnmmxlgvazhy',
+        'PASSWORD': '7a688e6358cca9662945de284e94c287363afaea2c60fecbd515b3c14bf0826b',
+        'HOST': 'ec2-54-78-127-245.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
