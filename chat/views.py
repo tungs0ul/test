@@ -35,6 +35,9 @@ def finish(request):
     for move in moves:
         move.delete()
     room.first_move = "p1" if room.first_move == "p2" else "p2"
+    room.p1_ready = False
+    room.p2_ready = False
+    room.save()
     return JsonResponse({'msg': 'ok'})
 
 
